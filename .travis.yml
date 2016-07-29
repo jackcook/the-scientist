@@ -11,8 +11,3 @@ install:
   - pip install pytest
 script:
   - py.test
-after_success:
-  - |
-    if [[ $TRAVIS_PYTHON_VERSION == $NEWEST_PYTHON && $TRAVIS_OS_NAME == 'linux' ]]; then
-      pip install python-coveralls && coveralls
-    fi
