@@ -1,6 +1,14 @@
-import json, os, sys
+import argparse, json, os, sys
 
-sentence = " ".join(str(x) for x in sys.argv[1:])
+class JoinAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, " ".join(values))
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-s", "--sentence", nargs="+", action=JoinAction)
+args = parser.parse_args()
+
+sentence = args.sentence
 
 # Run input through the SyntaxNet demo script, piping output into output.txt
 os.system("(cd models/syntaxnet; echo \"%s\" | sh syntaxnet/demo.sh) > output.txt" % sentence)
@@ -43,6 +51,8 @@ for idx, line in enumerate(lines):
 
     tree_data.append(line_obj)
 
+output_file.close()
+
 def insert_child(element, level, has_children):
     global root
 
@@ -84,6 +94,4 @@ for idx, element in enumerate(tree_data):
 
     insert_child(element, element["level"], has_children())
 
-print json.dumps(root, indent=4, sort_keys=True)
-
-output_file.close()
+print json.dumps(root, indent=2)
