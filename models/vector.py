@@ -32,62 +32,63 @@ class Vector:
         self.r = r
         self.theta = theta
 
-    def get_x(self):
-        if self.x != None:
-            return self.x
-        elif self.get_y() != None and self.get_r() != None:
-            # r = sqrt(x*x + y*y) -> x = sqrt(r*r - y*y)
-            self.x = math.sqrt(self.r * self.r - self.y * self.y)
-        elif self.get_y() != None and self.get_theta() != None:
-            # θ = atan(y/x) -> x = y / tan(θ)
-            self.x = self.y / math.tan(self.theta)
-        elif self.get_r() != None and self.get_theta() != None:
-            # x = r * cos(θ)
+        self.check_x_equation()
+        self.check_y_equation()
+        self.check_r_equation()
+        self.check_theta_equation()
+
+    # x = r * cos(θ)
+    def check_x_equation(self):
+        if self.r != None and self.theta != None:
             self.x = self.r * math.cos(self.theta)
-
-        return self.x
-
-    def get_y(self):
-        if self.y != None:
-            return self.y
-        elif self.get_x() != None and self.get_r() != None:
-            # r = sqrt(x*x + y*y) -> y = sqrt(r*r - x*x)
-            self.y = math.sqrt(self.r * self.r - self.x * self.x)
-        elif self.get_x() != None and self.get_theta() != None:
-            # θ = atan(y/x) -> y = x * tan(θ)
-            self.y = self.x * math.tan(self.theta)
-        elif self.get_r() != None and self.get_theta() != None:
-            # y = r * sin(θ)
-            self.y = self.r * math.sin(self.theta)
-
-        return self.y
-
-    def get_r(self):
-        if self.r != None:
-            return self.r
-        elif self.get_x() != None and self.get_y() != None:
-            # r*r = x*x + y*y -> r = sqrt(x*x + y*y)
-            self.r = math.hypot(self.x, self.y)
-        elif self.get_x() != None and self.get_theta() != None:
-            # x = r * cos(θ) -> r = x / cos(θ)
+            return True
+        elif self.x != None and self.theta != None:
             self.r = self.x / math.cos(self.theta)
-        elif self.get_y() != None and self.get_theta() != None:
-            # y = r * sin(θ) -> r = y / sin(θ)
-            self.r = self.y / math.sin(self.theta)
-
-        return self.r
-
-    def get_theta(self):
-        if self.theta != None:
-            return self.theta
-        elif self.get_x() != None and self.get_y() != None:
-            # tan(θ) = y / x -> θ = atan(y / x)
-            self.theta = math.atan2(self.y, self.x)
-        elif self.get_x() != None and self.get_r() != None:
-            # x = r * cos(θ) -> θ = acos(x / r)
+            return True
+        elif self.x != None and self.r != None:
             self.theta = math.acos(self.x / self.r)
-        elif self.get_y() != None and self.get_r() != None:
-            # y = r * sin(θ) -> θ = asin(y / r)
-            self.theta = math.asin(self.y / self.r)
+            return True
 
-        return self.theta
+        return False
+
+    # y = r * sin(θ)
+    def check_y_equation(self):
+        if self.r != None and self.theta != None:
+            self.y = self.r * math.sin(self.theta)
+            return True
+        elif self.y != None and self.theta != None:
+            self.r = self.y / math.sin(self.theta)
+            return True
+        elif self.y != None and self.r != None:
+            self.theta = math.asin(self.y / self.r)
+            return True
+
+        return False
+
+    # r = sqrt(x*x + y*y)
+    def check_r_equation(self):
+        if self.x != None and self.y != None:
+            self.r = math.hypot(self.x, self.y)
+            return True
+        elif self.r != None and self.y != None:
+            self.x = math.sqrt(self.r * self.r - self.y * self.y)
+            return True
+        elif self.r != None and self.x != None:
+            self.y = math.sqrt(self.r * self.r - self.x * self.x)
+            return True
+
+        return False
+
+    # tan(θ) = y / x
+    def check_theta_equation(self):
+        if self.x != None and self.y != None:
+            self.theta = math.atan2(self.y, self.x)
+            return True
+        elif self.x != None and self.theta != None:
+            self.y = self.x * math.tan(self.theta)
+            return True
+        elif self.y != None and self.theta != None:
+            self.x = self.y / math.tan(self.theta)
+            return True
+
+        return False
