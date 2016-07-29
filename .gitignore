@@ -1,6 +1,8 @@
 .DS_Store
 
-*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
 
 models/
 output.txt
