@@ -1,5 +1,6 @@
 .DS_Store
 
+.coverage
 .cache/
 __pycache__/
 *.py[cod]
