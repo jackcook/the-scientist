@@ -4,5 +4,5 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-models/
+syntaxnet/
 output.txt
