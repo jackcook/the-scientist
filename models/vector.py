@@ -39,13 +39,13 @@ class Vector:
 
     # x = r * cos(θ)
     def check_x_equation(self):
-        if self.r != None and self.theta != None:
+        if self.x == None and self.r != None and self.theta != None:
             self.x = self.r * math.cos(self.theta)
             return True
-        elif self.x != None and self.theta != None:
+        elif self.r == None and self.x != None and self.theta != None:
             self.r = self.x / math.cos(self.theta)
             return True
-        elif self.x != None and self.r != None:
+        elif self.theta == None and self.x != None and self.r != None:
             self.theta = math.acos(self.x / self.r)
             return True
 
@@ -53,13 +53,13 @@ class Vector:
 
     # y = r * sin(θ)
     def check_y_equation(self):
-        if self.r != None and self.theta != None:
+        if self.y == None and self.r != None and self.theta != None:
             self.y = self.r * math.sin(self.theta)
             return True
-        elif self.y != None and self.theta != None:
+        elif self.r == None and self.y != None and self.theta != None:
             self.r = self.y / math.sin(self.theta)
             return True
-        elif self.y != None and self.r != None:
+        elif self.theta == None and self.y != None and self.r != None:
             self.theta = math.asin(self.y / self.r)
             return True
 
@@ -67,13 +67,13 @@ class Vector:
 
     # r = sqrt(x*x + y*y)
     def check_r_equation(self):
-        if self.x != None and self.y != None:
+        if self.r == None and self.x != None and self.y != None:
             self.r = math.hypot(self.x, self.y)
             return True
-        elif self.r != None and self.y != None:
+        elif self.x == None and self.r != None and self.y != None:
             self.x = math.sqrt(self.r * self.r - self.y * self.y)
             return True
-        elif self.r != None and self.x != None:
+        elif self.y == None and self.r != None and self.x != None:
             self.y = math.sqrt(self.r * self.r - self.x * self.x)
             return True
 
@@ -81,13 +81,13 @@ class Vector:
 
     # tan(θ) = y / x
     def check_theta_equation(self):
-        if self.x != None and self.y != None:
+        if self.theta == None and self.x != None and self.y != None:
             self.theta = math.atan2(self.y, self.x)
             return True
-        elif self.x != None and self.theta != None:
+        elif self.y == None and self.x != None and self.theta != None:
             self.y = self.x * math.tan(self.theta)
             return True
-        elif self.y != None and self.theta != None:
+        elif self.x == None and self.y != None and self.theta != None:
             self.x = self.y / math.tan(self.theta)
             return True
 
