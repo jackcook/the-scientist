@@ -27,8 +27,6 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install oracle-java8-installer -y
   - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - java -version
-  - whereis java
   - # install bazel
   - wget 'https://github.com/bazelbuild/bazel/releases/download/0.2.2b/bazel-0.2.2b-installer-linux-x86_64.sh'
   - chmod +x bazel-0.2.2b-installer-linux-x86_64.sh
@@ -42,6 +40,8 @@ before_install:
   - wget 'https://gist.githubusercontent.com/jackcook/94297090549a59a117fb79afedbfb47b/raw/05f6cd4f80ae6755fd4e2438d5552440efc1937a/configure' -O 'alt-configure'
   - chmod +x alt-configure
   - ./alt-configure
+  - pwd
+  - ls -a
   - bazel test syntaxnet/... util/utf8/...
 install:
   - pip install pytest
