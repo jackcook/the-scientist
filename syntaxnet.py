@@ -1,4 +1,4 @@
-import argparse, json, os, sys
+import argparse, os, sys
 
 from pos import CoarsePOS, FinePOS
 
@@ -60,11 +60,24 @@ def pass_sentence(sentence):
 
         insert_child(element, element["level"], has_children())
 
-    print json.dumps(root, indent=2)
+    return root
 
 # Inserts an element into the tree
 def insert_child(element, level, has_children):
     global root
+
+    # Removes the element's level and children array if it will not have children
+    def clean(element):
+        obj = {
+            "word": element["word"],
+            "coarse": CoarsePOS(element["coarse"]).name,
+            "fine": FinePOS(element["fine"]).name
+        }
+
+        if has_children:
+            obj["children"] = []
+
+        return obj
 
     if level == 0:
         # If the level is zero, it is the root element
@@ -72,19 +85,6 @@ def insert_child(element, level, has_children):
     else:
         # If the level is not zero, we need to find it's parent
         get_element(root, level)["children"].append(clean(element))
-
-# Removes the element's level and children array if it will not have children
-def clean(element):
-    obj = {
-        "word": element["word"],
-        "coarse": CoarsePOS(element["coarse"]).name,
-        "fine": FinePOS(element["fine"]).name
-    }
-
-    if has_children:
-        obj["children"] = []
-
-    return obj
 
 # Finds the parent of an element that needs to be inserted into the tree
 def get_element(element, level, currentlevel=0):
