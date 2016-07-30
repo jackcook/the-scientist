@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 language: python
 env:
   global:
@@ -6,13 +6,11 @@ env:
 addons:
   apt:
     sources:
-      - webupd8team/java
       - ubuntu-toolchain-r-test
     packages:
       - gcc-4.8
       - g++-4.8
       - wget
-      - oracle-java8-installer
       - pkg-config
       - zip
       - zlib1g-dev
@@ -22,9 +20,17 @@ python:
   - 2.7
   - pypy
 before_install:
+  - # install java
+  - echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  - echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+  - sudo add-apt-repository ppa:webupd8team/java -y
+  - sudo apt-get update
+  - sudo apt-get install oracle-java8-installer -y
+  - # install bazel
   - wget 'https://github.com/bazelbuild/bazel/releases/download/0.2.2b/bazel-0.2.2b-installer-linux-x86_64.sh'
   - chmod +x bazel-0.2.2b-installer-linux-x86_64.sh
   - ./bazel-0.2.2b-installer-linux-x86_64.sh --user
+  - # configure syntaxnet
   - pip install -U protobuf==3.0.0b2
   - pip install asciitree
   - pip install numpy
