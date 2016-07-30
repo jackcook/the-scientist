@@ -1,5 +1,7 @@
 import argparse, json, os, sys
 
+from pos import CoarsePOS, FinePOS
+
 class JoinAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         setattr(namespace, self.dest, " ".join(values))
@@ -60,8 +62,8 @@ def insert_child(element, level, has_children):
     def clean(element):
         obj = {
             "word": element["word"],
-            "coarse": element["coarse"],
-            "fine": element["fine"]
+            "coarse": CoarsePOS(element["coarse"]).name,
+            "fine": FinePOS(element["fine"]).name
         }
 
         if has_children:
