@@ -9,7 +9,7 @@ def pass_sentence(sentence):
     global root, tree_data
 
     # Run input through the SyntaxNet demo script, piping output into output.txt
-    os.system("(cd syntaxnet; echo \"%s\" | sh syntaxnet/demo.sh) > output.txt" % sentence)
+    os.system("(cd tf-models/syntaxnet; echo \"%s\" | sh syntaxnet/demo.sh) > output.txt" % sentence)
 
     output_file = open("output.txt", "r")
     lines = output_file.readlines()
