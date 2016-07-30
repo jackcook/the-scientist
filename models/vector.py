@@ -32,10 +32,13 @@ class Vector:
         self.r = r
         self.theta = theta
 
-        self.check_x_equation()
-        self.check_y_equation()
-        self.check_r_equation()
-        self.check_theta_equation()
+        self.check_equations()
+
+    def check_equations(self):
+        if self.check_x_equation(): self.check_equations()
+        if self.check_y_equation(): self.check_equations()
+        if self.check_r_equation(): self.check_equations()
+        if self.check_theta_equation(): self.check_equations()
 
     # x = r * cos(θ)
     def check_x_equation(self):
@@ -92,3 +95,13 @@ class Vector:
             return True
 
         return False
+
+    def add(self, vector):
+        x = self.x + vector.x
+        y = self.y + vector.y
+        return Vector(x=x, y=y)
+
+    def subtract(self, vector):
+        x = self.x - vector.x
+        y = self.y - vector.y
+        return Vector(x=x, y=y)

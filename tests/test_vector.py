@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import math
 from models import Vector
 
 x = 2.5
@@ -74,3 +75,25 @@ def test_y_from_x_and_theta():
 def test_x_from_y_and_theta():
     vec = Vector(y=y, theta=theta)
     assert round(vec.x, 4) == round(x, 4)
+
+# ---------------- #
+
+def test_addition():
+    vec1 = Vector(r=5, theta=0)
+    vec2 = Vector(r=2, theta=math.radians(45))
+    vec3 = vec1.add(vec2)
+
+    assert round(vec3.x, 4) == 6.4142
+    assert round(vec3.y, 4) == 1.4142
+    assert round(vec3.r, 4) == 6.5683
+    assert round(vec3.theta, 4) == 0.217
+
+def test_subtraction():
+    vec1 = Vector(r=5, theta=0)
+    vec2 = Vector(r=2, theta=math.radians(45))
+    vec3 = vec1.subtract(vec2)
+
+    assert round(vec3.x, 4) == 3.5858
+    assert round(vec3.y, 4) == -1.4142
+    assert round(vec3.r, 4) == 3.8546
+    assert round(vec3.theta, 4) == 0.3757
