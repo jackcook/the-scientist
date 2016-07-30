@@ -1,0 +1,13 @@
+Input: What angle does vector A make with the positive x-axis ?
+Parse:
+vector VB ROOT
+ +-- angle NN nsubj
+ |   +-- What WDT det
+ +-- does VBZ aux
+ +-- make NN dobj
+ |   +-- A DT det
+ +-- with IN prep
+ |   +-- x-axis NN pobj
+ |       +-- the DT det
+ |       +-- positive JJ amod
+ +-- ? . punct

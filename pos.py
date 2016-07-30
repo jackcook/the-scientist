@@ -19,6 +19,7 @@ class CoarsePOS(Enum):
     adjective = "JJ"
     adjective_comparative = "JJR"
     left_bracket = "-LRB-"
+    list_item_marker = "LS"
     modal = "MD"
     superfluous_punctuation = "NFP" # double check
     noun = "NN"
