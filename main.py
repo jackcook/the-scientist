@@ -19,6 +19,8 @@ def answer_question(question):
         return "%d units" % int(round(vector.x))
     elif request == "magnitude":
         return "%d units" % int(round(vector.r))
+    elif request == "increases" or request == "decreases":
+        return request
 
 def find_given_values(question, root):
     vectors = {}
@@ -79,7 +81,11 @@ def convert_value_data(name, value):
         return ("r", value)
 
 def find_request(question, root):
-    return find_determiner_request(question, root)
+    trend = find_trend_request(question, root)
+    if trend: return trend
+
+    determiner = find_determiner_request(question, root)
+    if determiner: return determiner
 
 def find_determiner_request(question, root):
     elements = root.find_elements(fine=FinePOS.object_of_a_preposition.name,
@@ -99,7 +105,42 @@ def find_determiner_request(question, root):
 
 def check_magnitude_properties(question):
     if "horizontal component" in question.split("magnitude")[-1]: return "horizontal_component"
+    elif "vertical component" in question.split("magnitude")[-1]: return "vertical_component"
     else: return "magnitude"
+
+def find_trend_request(question, root):
+    if root.coarse == CoarsePOS.preposition_or_subordinating_conjunction.name:
+        trend = re.findall(r"from (\d+)\s?\w* to (\d+)\s?\w*", question)
+        values = (int(trend[0][0]), int(trend[0][1]))
+        interval = (values[1] - values[0]) / 10
+
+        x_var = root.children[0].word
+        y_var = root.find_elements(fine=FinePOS.appositional_modifier.name)[0].word
+
+        if y_var == "magnitude":
+            y_var = check_magnitude_properties(question)
+
+        results = []
+
+        for i in range(interval):
+            x = values[0] + interval * i
+            y = create_given_vector(x_var, y_var, x).theta
+            results.append(y)
+
+        return "increases" if results[-1] > results[0] else "decreases"
+
+    return None
+
+def create_given_vector(x_var, y_var, value):
+    vector = None
+
+    if x_var == "angle":
+        if y_var != "horizontal_component":
+            vector = Vector(x=16, theta=math.radians(value))
+        else:
+            vector = Vector(y=16, theta=math.radians(value))
+
+    return vector
 
 if __name__ == "__main__":
     class JoinAction(argparse.Action):
