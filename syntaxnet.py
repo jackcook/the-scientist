@@ -1,6 +1,7 @@
 import argparse, os, sys
 
 from pos import CoarsePOS, FinePOS
+from word import Word
 
 root = {}
 tree_data = []
@@ -67,31 +68,31 @@ def insert_child(element, level, has_children):
     global root
 
     # Removes the element's level and children array if it will not have children
-    def clean(element):
-        obj = {
-            "word": element["word"],
-            "coarse": CoarsePOS(element["coarse"]).name,
-            "fine": FinePOS(element["fine"]).name
-        }
+    def gen_word(element):
+        word = Word(
+            word=element["word"],
+            coarse=CoarsePOS(element["coarse"]).name,
+            fine=FinePOS(element["fine"]).name
+        )
 
         if has_children:
-            obj["children"] = []
+            word.children = []
 
-        return obj
+        return word
 
     if level == 0:
         # If the level is zero, it is the root element
-        root = clean(element)
+        root = gen_word(element)
     else:
         # If the level is not zero, we need to find it's parent
-        get_element(root, level)["children"].append(clean(element))
+        get_element(root, level).children.append(gen_word(element))
 
 # Finds the parent of an element that needs to be inserted into the tree
 def get_element(element, level, currentlevel=0):
     if currentlevel == level - 1:
         return element
     else:
-        return get_element(element["children"][-1], level, currentlevel + 1)
+        return get_element(element.children[-1], level, currentlevel + 1)
 
 if __name__ == "__main__":
     class JoinAction(argparse.Action):
@@ -104,4 +105,4 @@ if __name__ == "__main__":
 
     sentence = args.sentence
 
-    pass_sentence(sentence)
+    print pass_sentence(sentence)
