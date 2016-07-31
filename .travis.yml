@@ -1,13 +1,8 @@
 sudo: required
 dist: trusty
 language: python
-env:
-  global:
-    - NEWEST_PYTHON=2.7
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
       - pkg-config
       - zip
@@ -19,26 +14,22 @@ addons:
 python:
   - 2.6
   - 2.7
-  - pypy
 before_install:
-  - # install java
-  - echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
-  - echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
   - sudo add-apt-repository ppa:webupd8team/java -y
   - sudo apt-get update -qq
+  - echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  - echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
   - sudo apt-get install oracle-java8-installer -y
   - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-  - # install bazel
   - wget 'https://github.com/bazelbuild/bazel/releases/download/0.2.2b/bazel-0.2.2b-installer-linux-x86_64.sh'
   - chmod +x bazel-0.2.2b-installer-linux-x86_64.sh
   - ./bazel-0.2.2b-installer-linux-x86_64.sh --user
-  - # configure syntaxnet
   - pip install -U protobuf==3.0.0b2
   - pip install asciitree
   - pip install numpy
   - git clone --recursive https://github.com/tensorflow/models.git tf-models
   - cd tf-models/syntaxnet/tensorflow
-  - wget 'https://gist.githubusercontent.com/jackcook/94297090549a59a117fb79afedbfb47b/raw/05f6cd4f80ae6755fd4e2438d5552440efc1937a/configure' -O 'alt-configure'
+  - wget 'https://gist.githubusercontent.com/jackcook/94297090549a59a117fb79afedbfb47b/raw/df9c41dbce47618c9fbe4dec8bf90a0a60382c5c/configure' -O 'alt-configure'
   - chmod +x alt-configure
   - ./alt-configure
   - cd ..
