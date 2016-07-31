@@ -34,6 +34,14 @@ class Vector:
 
         self.check_equations()
 
+    def __init__(self, dict):
+        if "x" in dict: self.x = float(dict["x"])
+        if "y" in dict: self.y = float(dict["y"])
+        if "r" in dict: self.r = float(dict["r"])
+        if "theta" in dict: self.theta = float(dict["theta"])
+
+        self.check_equations()
+
     def add(self, vector):
         x = self.x + vector.x
         y = self.y + vector.y

@@ -1,4 +1,4 @@
-import math, json, re, syntaxnet
+import argparse, math, json, re, syntaxnet
 from models import Vector
 from pos import CoarsePOS, FinePOS
 
@@ -6,39 +6,49 @@ def answer_question(question):
     info = question.split(". ")[1]
     root = syntaxnet.pass_sentence(info)
 
-    def find_subject(element):
-        if element["fine"] == FinePOS.nominal_subject.name:
-            return element
-        else:
-            return find_subject(element["children"][0])
+    vectors_data = find_given_values(question)
+    vectors = {key: Vector(val) for key, val in vectors_data.iteritems()}
+
+    subject = find_element(root, fine=FinePOS.nominal_subject.name)
+
+    if subject["word"] == "angle":
+        return "%d degrees" % int(round(math.degrees(vectors["A"].theta), 0))
+
+def find_element(root, word=None, coarse=None, fine=None):
+    if word and root["word"] == word: return root
+    if coarse and root["coarse"] == coarse: return root
+    if fine and root["fine"] == fine: return root
+
+    if "children" in root:
+        for child in root["children"]:
+            element = find_element(child, word, coarse, fine)
+            if element: return element
+
+def find_given_values(question):
+    vectors = {}
 
     data = re.findall(r"([A-z0-9()]+ = [0-9].?[0-9]?)", question)
     values = {x.split(" = ")[0]: x.split(" = ")[1] for x in data}
 
-    vec_data = {}
-
     for key, val in values.iteritems():
         key_data = re.findall(r"([A-z])\(([A-z])\)", key)
-        vec_id = key_data[0][0]
-        vec_variable = key_data[0][1]
+        vector_id = key_data[0][0]
+        variable = key_data[0][1]
 
-        if vec_id not in vec_data.keys():
-            vec_data[vec_id] = {}
+        if vector_id not in vectors.keys():
+            vectors[vector_id] = {}
 
-        vec_data[vec_id][vec_variable] = val
+        vectors[vector_id][variable] = val
 
-    for key, val in vec_data.iteritems():
-        x = y = r = theta = None
+    return vectors
 
-        for k, v in val.iteritems():
-            if k == "x":
-                x = v
-            elif k == "y":
-                y = v
+if __name__ == "__main__":
+    class JoinAction(argparse.Action):
+        def __call__(self, parser, namespace, values, option_string=None):
+            setattr(namespace, self.dest, " ".join(values))
 
-        if x and y:
-            vector = Vector(x=float(x), y=float(y))
-            subject = find_subject(root)["word"]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-q", "--question", nargs="+", action=JoinAction)
+    args = parser.parse_args()
 
-            if subject == "angle":
-                return "%d degrees" % int(round(math.degrees(vector.theta), 0))
+    print answer_question(args.question)
