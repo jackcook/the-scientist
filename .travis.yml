@@ -7,6 +7,4 @@ python:
 install:
   - pip install aenum pytest
 script:
-  - py.test -h
-  - ls
-  - py.test -c travis_setup.cfg
+  - py.test --ignore=tests/test_vectors.py
