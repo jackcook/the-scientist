@@ -1,4 +1,5 @@
 sudo: required
+dist: trusty
 language: python
 env:
   global:
@@ -41,8 +42,6 @@ before_install:
   - chmod +x alt-configure
   - ./alt-configure
   - cd ..
-  - export CC="/usr/bin/gcc"
-  - export CXX="/usr/bin/g++"
   - bazel test syntaxnet/... util/utf8/...
 install:
   - pip install pytest
