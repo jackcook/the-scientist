@@ -1,5 +1,3 @@
-from collections import Counter
-
 class Word:
 
     word = None
@@ -43,8 +41,16 @@ class Word:
                 children_coarse.append(child.coarse)
                 children_fine.append(child.fine)
 
-            if cwords and Counter(children_words) != Counter(cwords): return False
-            if ccoarse and Counter(children_coarse) != Counter(ccoarse): return False
-            if cfine and Counter(children_fine) != Counter(cfine): return False
+            if cwords:
+                for word in cwords:
+                    if word not in children_words: return False
+
+            if ccoarse:
+                for coarse in ccoarse:
+                    if coarse not in children_coarse: return False
+
+            if cfine:
+                for fine in cfine:
+                    if fine not in children_fine: return False
 
         return True

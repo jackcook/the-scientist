@@ -1,5 +1,4 @@
-import argparse, collections, math, json, re, syntaxnet
-from collections import defaultdict
+import argparse, math, json, re, syntaxnet
 
 from models import Vector
 from pos import CoarsePOS, FinePOS
@@ -10,17 +9,16 @@ def answer_question(question):
     vectors_data = find_given_values(question, root)
     vectors = {key: Vector(dict=val) for key, val in vectors_data.iteritems()}
 
-    subjects = root.find_elements(fine=FinePOS.nominal_subject.name,
-        ccoarse=[CoarsePOS.wh_determiner.name], cfine=[FinePOS.determiner.name])
-
-    word = subjects[0].word
+    request = find_request(question, root)
 
     vector = vectors.itervalues().next() # remove later to support multiple vectors
 
-    if word == "angle":
+    if request == "angle":
         return "%d degrees" % int(round(math.degrees(vector.theta)))
-    elif word == "magnitude":
-        return "%d magnitude" % int(round(vector.r))
+    elif request == "horizontal_component":
+        return "%d units" % int(round(vector.x))
+    elif request == "magnitude":
+        return "%d units" % int(round(vector.r))
 
 def find_given_values(question, root):
     vectors = {}
@@ -80,8 +78,28 @@ def convert_value_data(name, value):
     elif name == "magnitude":
         return ("r", value)
 
-def convert_name_to_key(name):
-    return {"magnitude": "r", "angle": "theta"}[name]
+def find_request(question, root):
+    return find_determiner_request(question, root)
+
+def find_determiner_request(question, root):
+    elements = root.find_elements(fine=FinePOS.object_of_a_preposition.name,
+        ccoarse=[CoarsePOS.determiner.name, CoarsePOS.preposition_or_subordinating_conjunction.name],
+        cfine=[FinePOS.determiner.name, FinePOS.prepositional_modifier.name])
+
+    if len(elements) == 0:
+        elements = root.find_elements(fine=FinePOS.nominal_subject.name,
+            ccoarse=[CoarsePOS.wh_determiner.name], cfine=[FinePOS.determiner.name])
+
+    element = elements[0].word
+
+    if element == "magnitude":
+        element = check_magnitude_properties(question)
+
+    return element
+
+def check_magnitude_properties(question):
+    if "horizontal component" in question.split("magnitude")[-1]: return "horizontal_component"
+    else: return "magnitude"
 
 if __name__ == "__main__":
     class JoinAction(argparse.Action):
