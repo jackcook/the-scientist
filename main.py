@@ -7,7 +7,7 @@ def answer_question(question):
     root = syntaxnet.pass_sentence(info)
 
     vectors_data = find_given_values(question)
-    vectors = {key: Vector(val) for key, val in vectors_data.iteritems()}
+    vectors = {key: Vector(dict=val) for key, val in vectors_data.iteritems()}
 
     subject = find_element(root, fine=FinePOS.nominal_subject.name)
 

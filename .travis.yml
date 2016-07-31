@@ -7,4 +7,5 @@ python:
 install:
   - pip install aenum pytest
 script:
+  - py.test -h
   - py.test -c travis_setup.cfg
