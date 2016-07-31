@@ -8,13 +8,22 @@ def answer_question(question):
     vectors_data = find_given_values(question)
     vectors = {key: Vector(dict=val) for key, val in vectors_data.iteritems()}
 
+    word = None
+
     subjects = find_elements(root, fine=[FinePOS.direct_object.name, FinePOS.nominal_subject.name])
-    word = subjects[1]["word"]
+
+    for subject in subjects:
+        for child in subject["children"]:
+            if child["coarse"] == CoarsePOS.wh_determiner.name and child["fine"] == FinePOS.determiner.name:
+                word = subject["word"]
+                break
+
+    vector = vectors.itervalues().next() # remove this later
 
     if word == "angle":
-        return "%d degrees" % int(round(math.degrees(vectors["A"].theta), 0))
+        return "%d degrees" % int(round(math.degrees(vector.theta), 0))
     elif word == "magnitude":
-        return "%d magnitude" % int(round(vectors["A"].r))
+        return "%d magnitude" % int(round(vector.r))
 
 def find_elements(root, found=[], words=None, coarse=None, fine=None, level=0):
     if words and root["word"] in words: found.append(root)
