@@ -1,40 +1,10 @@
-sudo: required
-dist: trusty
+sudo: false
 language: python
-addons:
-  apt:
-    packages:
-      - pkg-config
-      - zip
-      - g++
-      - zlib1g-dev
-      - unzip
-      - wget
-      - swig
 python:
   - 2.6
   - 2.7
-before_install:
-  - sudo add-apt-repository ppa:webupd8team/java -y
-  - sudo apt-get update -qq
-  - echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
-  - echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-  - sudo apt-get install oracle-java8-installer -y
-  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - pypy
 install:
-  - wget 'https://github.com/bazelbuild/bazel/releases/download/0.2.2b/bazel-0.2.2b-installer-linux-x86_64.sh'
-  - chmod +x bazel-0.2.2b-installer-linux-x86_64.sh
-  - ./bazel-0.2.2b-installer-linux-x86_64.sh --user
-  - pip install -U protobuf==3.0.0b2
-  - pip install asciitree
-  - pip install numpy
-  - git clone --recursive https://github.com/tensorflow/models.git tf-models
-  - cd tf-models/syntaxnet/tensorflow
-  - wget 'https://gist.githubusercontent.com/jackcook/94297090549a59a117fb79afedbfb47b/raw/df9c41dbce47618c9fbe4dec8bf90a0a60382c5c/configure' -O 'alt-configure'
-  - chmod +x alt-configure
-  - ./alt-configure
-  - cd ..
-  - bazel test syntaxnet/... util/utf8/...
   - pip install pytest
 script:
-  - py.test
+  - py.test -c travis_setup.cfg

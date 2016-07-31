@@ -34,6 +34,16 @@ class Vector:
 
         self.check_equations()
 
+    def add(self, vector):
+        x = self.x + vector.x
+        y = self.y + vector.y
+        return Vector(x=x, y=y)
+
+    def subtract(self, vector):
+        x = self.x - vector.x
+        y = self.y - vector.y
+        return Vector(x=x, y=y)
+
     def check_equations(self):
         if self.check_x_equation(): self.check_equations()
         if self.check_y_equation(): self.check_equations()
@@ -95,13 +105,3 @@ class Vector:
             return True
 
         return False
-
-    def add(self, vector):
-        x = self.x + vector.x
-        y = self.y + vector.y
-        return Vector(x=x, y=y)
-
-    def subtract(self, vector):
-        x = self.x - vector.x
-        y = self.y - vector.y
-        return Vector(x=x, y=y)
