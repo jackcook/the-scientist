@@ -3,26 +3,29 @@ from models import Vector
 from pos import CoarsePOS, FinePOS
 
 def answer_question(question):
-    info = question.split(". ")[1]
-    root = syntaxnet.pass_sentence(info)
+    root = syntaxnet.pass_sentence(question)
 
     vectors_data = find_given_values(question)
     vectors = {key: Vector(dict=val) for key, val in vectors_data.iteritems()}
 
-    subject = find_element(root, fine=FinePOS.nominal_subject.name)
+    subjects = find_elements(root, fine=[FinePOS.direct_object.name, FinePOS.nominal_subject.name])
+    word = subjects[1]["word"]
 
-    if subject["word"] == "angle":
+    if word == "angle":
         return "%d degrees" % int(round(math.degrees(vectors["A"].theta), 0))
+    elif word == "magnitude":
+        return "%d magnitude" % int(round(vectors["A"].r))
 
-def find_element(root, word=None, coarse=None, fine=None):
-    if word and root["word"] == word: return root
-    if coarse and root["coarse"] == coarse: return root
-    if fine and root["fine"] == fine: return root
+def find_elements(root, found=[], words=None, coarse=None, fine=None, level=0):
+    if words and root["word"] in words: found.append(root)
+    if coarse and root["coarse"] in coarse: found.append(root)
+    if fine and root["fine"] in fine: found.append(root)
 
     if "children" in root:
         for child in root["children"]:
-            element = find_element(child, word, coarse, fine)
-            if element: return element
+            find_elements(child, found, words, coarse, fine, level=level+1)
+
+    if level == 0: return found
 
 def find_given_values(question):
     vectors = {}
