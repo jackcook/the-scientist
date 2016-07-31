@@ -13,12 +13,13 @@ def answer_question(question):
     subjects = find_elements(root, fine=[FinePOS.direct_object.name, FinePOS.nominal_subject.name])
 
     for subject in subjects:
-        for child in subject["children"]:
-            if child["coarse"] == CoarsePOS.wh_determiner.name and child["fine"] == FinePOS.determiner.name:
-                word = subject["word"]
-                break
+        if "children" in subject:
+            for child in subject["children"]:
+                if child["coarse"] == CoarsePOS.wh_determiner.name and child["fine"] == FinePOS.determiner.name:
+                    word = subject["word"]
+                    break
 
-    vector = vectors.itervalues().next() # remove this later
+    vector = vectors.itervalues().next() # remove later to support multiple vectors
 
     if word == "angle":
         return "%d degrees" % int(round(math.degrees(vector.theta), 0))
