@@ -46,7 +46,10 @@ def find_equal_sign_values(question):
     vectors = {}
 
     data = re.findall(r"([A-z0-9()]+ = [0-9].?[0-9]?)", question)
-    values = {x.split(" = ")[0]: x.split(" = ")[1] for x in data}
+    values = {}
+
+    for x in data:
+        values[x.split(" = ")[0]] = x.split(" = ")[1]
 
     for key, val in values.iteritems():
         key_data = re.findall(r"([A-z])\(([A-z])\)", key)
