@@ -3,7 +3,7 @@ language: python
 python:
   - 2.7
 install:
-  - pip install aenum pytest
+  - pip install aenum pytest stemming
   - pip install -e .
 script:
   - py.test --ignore=tests/test_vectors.py
