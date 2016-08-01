@@ -1,8 +1,11 @@
+import re, syntaxnet
+
 from aenum import Enum
-from informational import get_term, serve_answer
+from stemming.porter2 import stem
 
 class Request:
 
+    element = None
     question = None
     request_type = None
 
@@ -11,11 +14,29 @@ class Request:
         self.determine_request_type()
 
     def determine_request_type(self):
-        if get_term(self.question):
+        if self.get_term():
             self.request_type = RequestType.informational
-            serve_answer(self.question)
         else:
+            self.element = syntaxnet.pass_sentence(self.question)
             self.request_type = RequestType.test
+
+    def get_term(self):
+        question_formats = [
+            "what is a (\w+)",
+            "what are (\w+)",
+            "describe (\w+)",
+            "explain (\w+)"
+        ]
+
+        term = None
+
+        for regex in question_formats:
+            match = re.match("%s[\.\?]?" % regex, self.question.lower())
+            if match:
+                term = stem(match.groups(1))
+                break
+
+        return term
 
 
 class RequestType(Enum):

@@ -1,7 +1,8 @@
 import argparse, math, json, re, syntaxnet
 
-from models import Vector
+from physics import Vector
 from pos import CoarsePOS, FinePOS
+from response import Response
 from request import Request
 
 def answer_question(question):
@@ -161,4 +162,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     request = Request(args.question)
-    # print answer_question(args.question)
+    response = Response(request)
+    print response.generate_answer()
