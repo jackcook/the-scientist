@@ -6,5 +6,6 @@ python:
   - pypy
 install:
   - pip install aenum pytest
+  - pip install -e .
 script:
   - py.test --ignore=tests/test_vectors.py
