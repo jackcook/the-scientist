@@ -1,11 +1,9 @@
 sudo: false
 language: python
 python:
-  - 2.6
   - 2.7
-  - pypy
 install:
-  - pip install aenum pytest ordereddict
+  - pip install aenum pytest
   - pip install -e .
 script:
   - py.test --ignore=tests/test_vectors.py
