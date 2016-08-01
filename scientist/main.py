@@ -8,7 +8,10 @@ def answer_question(question):
     root = syntaxnet.pass_sentence(question)
 
     vectors_data = find_given_values(question, root)
-    vectors = {key: Vector(dict=val) for key, val in vectors_data.iteritems()}
+    vectors = {}
+
+    for key, val in vectors_data.iteritems():
+        vectors[key] = Vector(dict=val)
 
     request = find_request(question, root)
 
