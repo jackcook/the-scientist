@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import math
-from models import Vector
+from scientist import Vector
 
 x = 2.5
 y = 7.5
