@@ -14,6 +14,9 @@ class Word:
     def __str__(self):
         return str(self.__dict__)
 
+    def __repr__(self):
+        return self.__str__()
+
     def find_elements(self, word=None, coarse=None, fine=None, cwords=None, ccoarse=None, cfine=None):
         matching = []
 

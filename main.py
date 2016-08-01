@@ -2,6 +2,7 @@ import argparse, math, json, re, syntaxnet
 
 from models import Vector
 from pos import CoarsePOS, FinePOS
+from request import Request
 
 def answer_question(question):
     root = syntaxnet.pass_sentence(question)
@@ -109,7 +110,9 @@ def check_magnitude_properties(question):
     else: return "magnitude"
 
 def find_trend_request(question, root):
-    if root.coarse == CoarsePOS.preposition_or_subordinating_conjunction.name:
+    is_trend = re.match(r"As.+(increases|decreases).+", question)
+
+    if is_trend:
         trend = re.findall(r"from (\d+)\s?\w* to (\d+)\s?\w*", question)
         values = (int(trend[0][0]), int(trend[0][1]))
         interval = (values[1] - values[0]) / 10
@@ -151,4 +154,5 @@ if __name__ == "__main__":
     parser.add_argument("-q", "--question", nargs="+", action=JoinAction)
     args = parser.parse_args()
 
-    print answer_question(args.question)
+    request = Request(args.question)
+    # print answer_question(args.question)
