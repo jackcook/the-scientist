@@ -1,5 +1,5 @@
 from aenum import Enum
-from informational import is_informational
+from informational import get_term, serve_answer
 
 class Request:
 
@@ -11,12 +11,11 @@ class Request:
         self.determine_request_type()
 
     def determine_request_type(self):
-        if is_informational(self.question):
+        if get_term(self.question):
             self.request_type = RequestType.informational
+            serve_answer(self.question)
         else:
             self.request_type = RequestType.test
-
-        print self.request_type
 
 
 class RequestType(Enum):
