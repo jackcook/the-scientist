@@ -4,6 +4,9 @@ from physics import Vector
 from request import RequestType
 from question_model import QuestionModel
 
+from calculated_value import CalculatedValueModel
+from trend import TrendModel
+
 class Response:
 
     request = None
@@ -31,11 +34,15 @@ class Response:
                         "https://github.com/jackcook/the-scientist/compare"
 
     def generate_test_answer(self):
-        for model in QuestionModel.get_all_models():
+        for model in Response.get_all_models():
             match = model.matches(self.request.question, self.request.element)
-            if match: return match.solve()
+            if match: return match
 
         # no question models matched
         return "I am unable to answer this question. If you think I should be able to answer\n" + \
                "this, please submit an issue or pull request at:\n" + \
                "https://github.com/jackcook/the-scientist/compare"
+
+    @staticmethod
+    def get_all_models():
+        return [CalculatedValueModel("calculated_value_001.json"), TrendModel("trend_001.json")]

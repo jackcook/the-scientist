@@ -1,0 +1,14 @@
+{
+  "regexes": [
+    "As the (\\w+) .+ (increases|decreases) .+"
+  ],
+  "given_object": {
+    "regex_group": 0
+  },
+  "given_values": {
+  },
+  "requested_value": {
+    "coarse": "noun",
+    "fine": "appositional_modifier"
+  }
+}
