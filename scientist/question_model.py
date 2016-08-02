@@ -17,7 +17,7 @@ class QuestionModel:
     requested_value = None
 
     def __init__(self, fp):
-        with open("./questions/%s" % fp, "r") as model_file:
+        with open("./scientist/questions/%s" % fp, "r") as model_file:
             data = json.load(model_file)
 
         self.regexes = data["regexes"]

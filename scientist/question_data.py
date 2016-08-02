@@ -4,8 +4,9 @@ from physics import Vector
 
 class QuestionData:
 
-    given_object = None
     question = None
+
+    given_object = None
     requested_value = None
 
     def __init__(self, question, given_object, requested_value):
@@ -23,30 +24,7 @@ class QuestionData:
                 vectors.append(Vector(dict=values))
 
             if self.requested_value == "angle":
-                return ("angle", math.degrees(vectors[0].theta))
-
-
-
-
-    # def find_given_values(self):
-    #     vectors = {}
-    #
-    #     d1 = self.find_equal_sign_values()
-    #     d2 = self.find_worded_values()
-    #
-    #     for d in (d1, d2):
-    #         for key, value in d.iteritems():
-    #             if key not in vectors:
-    #                 vectors[key] = {}
-    #
-    #             vectors[key].update(value)
-    #
-    #     actual_vectors = []
-    #
-    #     for _, values in vectors.iteritems():
-    #         actual_vectors.append(Vector(dict=values))
-    #
-    #     return actual_vectors
+                return "%d degrees" % int(round(math.degrees(vectors[0].theta)))
 
     # finds values in the form of A(x) = 2.5 / A(y) = 7.5 / etc
     def find_equal_sign_values(self):

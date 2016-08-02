@@ -1,15 +1,15 @@
 {
   "regexes": [
-    "A [\\w]+ is given .+"
+    "A [\\w]+ has .+"
   ],
   "given_object": {
     "coarse": "noun",
-    "fine": "passive_nominal_subject"
+    "fine": "nominal_subject"
   },
   "given_values": {
   },
   "requested_value": {
     "coarse": "noun",
-    "fine": "nominal_subject"
+    "fine": "object_of_a_preposition"
   }
 }
