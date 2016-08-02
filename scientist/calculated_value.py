@@ -30,8 +30,8 @@ class CalculatedValueModel(QuestionModel):
         if not super(CalculatedValueModel, self).matches(question, element):
             return False
 
-        self.given_object = self.given_object_matches(element)
-        self.requested_value = self.requested_value_matches(element)
+        self.given_object = self.find_given_object(element)
+        self.requested_value = self.find_requested_value(element)
 
         if self.given_object and self.requested_value:
             return True
@@ -47,6 +47,42 @@ class CalculatedValueModel(QuestionModel):
 
             if self.requested_value == "angle":
                 return "%d degrees" % int(round(math.degrees(vectors[0].theta)))
+
+    def find_given_object(self, element):
+        """Finds the given object could be found in the question.
+
+        Args:
+            element: The root word object of the question.
+
+        Returns:
+            A string, the given object of the question.
+        """
+
+        coarse = self.given_object["coarse"]
+        fine = self.given_object["fine"]
+
+        given_objects = element.find_elements(coarse=coarse, fine=fine)
+
+        if len(given_objects) > 0:
+            return given_objects[0].word
+
+    def find_requested_value(self, element):
+        """Finds the requested value could be found in the question.
+
+        Args:
+            element: The root word object of the question.
+
+        Returns:
+            A string, the requested value of the question.
+        """
+
+        coarse = self.requested_value["coarse"]
+        fine = self.requested_value["fine"]
+
+        requested_values = element.find_elements(coarse=coarse, fine=fine)
+
+        if len(requested_values) > 0:
+            return requested_values[0].word
 
     def find_equal_sign_values(self, question):
         """Looks for given values that are shown with equal signs. An example
@@ -80,39 +116,3 @@ class CalculatedValueModel(QuestionModel):
             vectors[vector_id][variable] = val
 
         return vectors
-
-    def given_object_matches(self, element):
-        """Checks if the given object could be found in the question.
-
-        Args:
-            element: The root word object of the question.
-
-        Returns:
-            A string, the given object of the question.
-        """
-
-        coarse = self.given_object["coarse"]
-        fine = self.given_object["fine"]
-
-        given_objects = element.find_elements(coarse=coarse, fine=fine)
-
-        if len(given_objects) > 0:
-            return given_objects[0].word
-
-    def requested_value_matches(self, element):
-        """Checks if the requested value could be found in the question.
-
-        Args:
-            element: The root word object of the question.
-
-        Returns:
-            A string, the requested value of the question.
-        """
-
-        coarse = self.requested_value["coarse"]
-        fine = self.requested_value["fine"]
-
-        requested_values = element.find_elements(coarse=coarse, fine=fine)
-
-        if len(requested_values) > 0:
-            return requested_values[0].word

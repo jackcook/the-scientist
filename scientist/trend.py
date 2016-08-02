@@ -1,3 +1,5 @@
+import re
+
 from question_model import QuestionModel
 
 class TrendModel(QuestionModel):
@@ -9,6 +11,8 @@ class TrendModel(QuestionModel):
         return True
 
     def solve(self, question, element):
+        trend_data = re.findall
+
         return "increases"
         # trend = re.findall(r"from (\d+)\s?\w* to (\d+)\s?\w*", question)
         # values = (int(trend[0][0]), int(trend[0][1]))

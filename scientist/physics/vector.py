@@ -12,6 +12,8 @@ class Vector:
         theta: The angle marking the vector's direction, in radians.
     """
 
+    x = y = r = theta = None
+
     def __init__(self, x=None, y=None, r=None, theta=None, dict=None):
         """Inits Vector with its attributes or a dictionary of them."""
 
