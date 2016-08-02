@@ -1,6 +1,6 @@
 {
   "regexes": [
-    ".+ is given .+",
+    ".+ is given .+"
   ],
   "given_object": {
     "coarse": "noun",

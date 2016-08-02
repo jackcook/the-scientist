@@ -3,6 +3,7 @@ import re
 from physics import Vector
 from pos import CoarsePOS, FinePOS
 from request import RequestType
+from question_model import QuestionModel
 
 class Response:
 
@@ -34,8 +35,16 @@ class Response:
                         "https://github.com/jackcook/the-scientist/compare"
 
     def generate_test_answer(self):
-        vectors = self.find_given_values()
-        print vectors[0].theta
+        for model in QuestionModel.get_all_models():
+            match = model.matches(self.request.question, self.request.element)
+            if match:
+                solution = match.solve()
+                if solution[0] == "angle":
+                    self.text = "%d degrees" % int(round(solution[1]))
+
+
+        # vectors = self.find_given_values()
+        # print vectors[0].theta
 
     def find_given_values(self):
         vectors = {}
