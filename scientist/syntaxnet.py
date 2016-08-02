@@ -1,4 +1,4 @@
-import argparse, os, sys
+import argparse, os
 
 from pos import CoarsePOS, FinePOS
 from word import Word

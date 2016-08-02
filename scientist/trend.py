@@ -1,34 +1,14 @@
-import json, re
-
 from question_model import QuestionModel
 
 class TrendModel(QuestionModel):
 
-    def __init__(self, fp):
-        with open("./scientist/questions/%s" % fp, "r") as model_file:
-            data = json.load(model_file)
-
-        self.regexes = data["regexes"]
-        self.given_object = data["given_object"]
-        self.given_values = data["given_values"]
-        self.requested_value = data["requested_value"]
-
     def matches(self, question, element):
-        self.question = question
-        self.element = element
+        if not super(TrendModel, self).matches(question, element):
+            return False
 
-        regex_match = False
+        return True
 
-        for regex in self.regexes:
-            if re.match(regex, question):
-                regex_match = True
-                break
-
-        if not regex_match: return None
-
-        return self.solve()
-
-    def solve(self):
+    def solve(self, question, element):
         return "increases"
         # trend = re.findall(r"from (\d+)\s?\w* to (\d+)\s?\w*", question)
         # values = (int(trend[0][0]), int(trend[0][1]))

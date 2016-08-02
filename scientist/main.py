@@ -1,11 +1,19 @@
-import argparse, math, json, re, syntaxnet
+import argparse
 
-from physics import Vector
-from pos import CoarsePOS, FinePOS
 from response import Response
 from request import Request
 
 def answer_question(question):
+    """Answers a physics question.
+
+    Args:
+        question: A string of the question being asked.
+
+    Returns:
+        The answer to the question, or an explanation if the scientist couldn't
+        answer the question.
+    """
+
     request = Request(question)
     response = Response(request)
     return response.generate_answer()

@@ -1,12 +1,10 @@
 {
   "regexes": [
-    "A [\\w]+ is given .+"
+    "a [\\w]+ is given .+"
   ],
   "given_object": {
     "coarse": "noun",
     "fine": "passive_nominal_subject"
-  },
-  "given_values": {
   },
   "requested_value": {
     "coarse": "noun",

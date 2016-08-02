@@ -1,6 +1,6 @@
 {
   "regexes": [
-    "As the (\\w+) .+ (increases|decreases) .+"
+    "as the (\\w+) .+ (increases|decreases) .+"
   ],
   "given_object": {
     "regex_group": 0

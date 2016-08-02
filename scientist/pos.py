@@ -1,12 +1,9 @@
 from aenum import Enum
 
 """
-    pos.py
-    ~~~~~~
-
-    References:
-    - https://cs.nyu.edu/grishman/jet/guide/PennPOS.html
-    - http://nlp.stanford.edu/software/dependencies_manual.pdf
+References:
+    https://cs.nyu.edu/grishman/jet/guide/PennPOS.html
+    http://nlp.stanford.edu/software/dependencies_manual.pdf
 """
 
 class CoarsePOS(Enum):
