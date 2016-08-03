@@ -34,4 +34,4 @@ class Response:
 
     @staticmethod
     def get_all_models():
-        return [InformationalModel("informational_001.json"), CalculatedValueModel("calculated_value_001.json"), TrendModel("trend_001.json")]
+        return [InformationalModel("informational_001.json"), CalculatedValueModel("calculated_value_001.json"), CalculatedValueModel("calculated_value_002.json"), TrendModel("trend_001.json")]
