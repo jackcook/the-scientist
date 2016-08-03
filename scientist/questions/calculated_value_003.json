@@ -1,0 +1,15 @@
+{
+  "regexes": [
+    "a ([\\w]+) has .+ what .+"
+  ],
+  "given_object": {
+    "regex_group": 0
+  },
+  "requested_value": {
+    "coarse": "noun",
+    "fine": "nominal_subject",
+    "ccoarse": [
+      "wh_determiner"
+    ]
+  }
+}

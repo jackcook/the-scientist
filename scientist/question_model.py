@@ -6,6 +6,7 @@ class QuestionModel(object):
     """A model to match questions against.
 
     Attributes:
+        regex: The regex that was used to match the question last passed.
         regexes: A list of strings representing regexes that the question will
             be matched against. Only one regex needs to match for this model to
             be considered a match.
@@ -36,6 +37,7 @@ class QuestionModel(object):
 
         for regex in self.regexes:
             if re.match(regex, question.lower()):
+                self.regex = regex
                 regex_match = True
                 break
 

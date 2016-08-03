@@ -30,7 +30,7 @@ class CalculatedValueModel(QuestionModel):
         if not super(CalculatedValueModel, self).matches(question, element):
             return False
 
-        self.given_object = self.find_given_object(element)
+        self.given_object = self.find_given_object(question, element)
         self.requested_value = self.find_requested_value(element)
 
         if self.given_object and self.requested_value:
@@ -50,7 +50,7 @@ class CalculatedValueModel(QuestionModel):
             elif self.requested_value == "magnitude":
                 return "%d units" % int(round(vectors[0].y))
 
-    def find_given_object(self, element):
+    def find_given_object(self, question, element):
         """Finds the given object could be found in the question.
 
         Args:
@@ -60,13 +60,16 @@ class CalculatedValueModel(QuestionModel):
             A string, the given object of the question.
         """
 
-        coarse = self.given_object["coarse"]
-        fine = self.given_object["fine"]
+        if "regex_group" in self.given_object:
+            return re.findall(self.regex, question.lower())[int(self.given_object["regex_group"])]
+        else:
+            coarse = self.given_object["coarse"]
+            fine = self.given_object["fine"]
 
-        given_objects = element.find_elements(coarse=coarse, fine=fine)
+            given_objects = element.find_elements(coarse=coarse, fine=fine)
 
-        if len(given_objects) > 0:
-            return given_objects[0].word
+            if len(given_objects) > 0:
+                return given_objects[0].word
 
     def find_requested_value(self, element):
         """Finds the requested value could be found in the question.
@@ -80,8 +83,12 @@ class CalculatedValueModel(QuestionModel):
 
         coarse = self.requested_value["coarse"]
         fine = self.requested_value["fine"]
+        ccoarse = None
 
-        requested_values = element.find_elements(coarse=coarse, fine=fine)
+        if "ccoarse" in self.requested_value:
+            ccoarse = self.requested_value["ccoarse"]
+
+        requested_values = element.find_elements(coarse=coarse, fine=fine, ccoarse=ccoarse)
 
         if len(requested_values) > 0:
             return requested_values[0].word

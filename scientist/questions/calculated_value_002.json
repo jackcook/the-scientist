@@ -1,12 +1,10 @@
 {
   "regexes": [
-    "a [\\w]+ has .+"
+    "a [\\w]+ has .+\\. the .+"
   ],
   "given_object": {
     "coarse": "noun",
     "fine": "nominal_subject"
-  },
-  "given_values": {
   },
   "requested_value": {
     "coarse": "noun",
