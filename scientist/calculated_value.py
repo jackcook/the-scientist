@@ -31,7 +31,7 @@ class CalculatedValueModel(QuestionModel):
             return False
 
         self.given_object = self.find_given_object(question, element)
-        self.requested_value = self.find_requested_value(element)
+        self.requested_value = self.find_requested_value(question, element)
 
         if self.given_object and self.requested_value:
             return True
@@ -47,7 +47,11 @@ class CalculatedValueModel(QuestionModel):
 
             if self.requested_value == "angle":
                 return "%d degrees" % int(round(math.degrees(vectors[0].theta)))
-            elif self.requested_value == "magnitude":
+            elif self.requested_value == "r":
+                return "%d units" % int(round(vectors[0].r))
+            elif self.requested_value == "x":
+                return "%d units" % int(round(vectors[0].x))
+            elif self.requested_value == "y":
                 return "%d units" % int(round(vectors[0].y))
 
     def find_given_object(self, question, element):
@@ -71,7 +75,7 @@ class CalculatedValueModel(QuestionModel):
             if len(given_objects) > 0:
                 return given_objects[0].word
 
-    def find_requested_value(self, element):
+    def find_requested_value(self, question, element):
         """Finds the requested value could be found in the question.
 
         Args:
@@ -91,7 +95,11 @@ class CalculatedValueModel(QuestionModel):
         requested_values = element.find_elements(coarse=coarse, fine=fine, ccoarse=ccoarse)
 
         if len(requested_values) > 0:
-            return requested_values[0].word
+            word = requested_values[0].word
+            if word == "magnitude":
+                return self.check_magnitude_properties(question)
+            else:
+                return word
 
     def find_given_values(self, question):
         vectors = {}
@@ -172,6 +180,14 @@ class CalculatedValueModel(QuestionModel):
             if vector_id not in vectors.keys():
                 vectors[vector_id] = {}
 
-            vectors[vector_id][variable] = data[0]
+            if variable == "theta":
+                vectors[vector_id][variable] = math.radians(float(data[0]))
+            else:
+                vectors[vector_id][variable] = data[0]
 
         return vectors
+
+    def check_magnitude_properties(self, question):
+        if "horizontal component" in question.split("magnitude")[-1]: return "x"
+        elif "vertical component" in question.split("magnitude")[-1]: return "y"
+        else: return "r"
