@@ -10,6 +10,21 @@ def test_question_1b():
     answer = answer_question(question)
     assert answer == "72 degrees"
 
+def test_question_1c():
+    question = "A vector is given the components A(x) = 2.5 and A(r) = 7.9. What angle does vector A make with the positive x-axis?"
+    answer = answer_question(question)
+    assert answer == "72 degrees"
+
+def test_question_1d():
+    question = "A vector has the components A(x) = 2.5 and A(y) = 7.5. What is the angle that vector A makes with the positive x-axis?"
+    answer = answer_question(question)
+    assert answer == "72 degrees"
+
+def test_question_1e():
+    question = "What is the angle that a vector with the components A(x) = 2.5 and A(y) = 7.5 makes with the positive x-axis?"
+    answer = answer_question(question)
+    assert answer == "72 degrees"
+
 def test_question_3():
     question = "A vector has a magnitude of 17 units and makes an angle of 20 degrees with the positive x-axis. The magnitude of the horizontal component of this vector is"
     answer = answer_question(question)
