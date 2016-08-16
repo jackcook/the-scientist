@@ -1,6 +1,7 @@
 {
   "regexes": [
-    "a [\\w]+ has .+\\. the .+"
+    "a [\\w]+ has .+\\. the .+",
+    "a [\\w]+ with .+\\. the .+"
   ],
   "given_object": {
     "coarse": "noun",
