@@ -1,0 +1,11 @@
+{
+  "regexes": [
+    "what is the ([\\w]+) that a ([\\w]+) .+"
+  ],
+  "given_object": {
+    "regex_group": 1
+  },
+  "requested_value": {
+    "regex_group": 0
+  }
+}

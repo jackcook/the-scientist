@@ -39,4 +39,6 @@ class Response:
             CalculatedValueModel("calculated_value_001.json"),
             CalculatedValueModel("calculated_value_002.json"),
             CalculatedValueModel("calculated_value_003.json"),
+            CalculatedValueModel("calculated_value_004.json"),
+            CalculatedValueModel("calculated_value_005.json"),
             TrendModel("trend_001.json")]

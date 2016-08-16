@@ -65,7 +65,9 @@ class CalculatedValueModel(QuestionModel):
         """
 
         if "regex_group" in self.given_object:
-            return re.findall(self.regex, question.lower())[int(self.given_object["regex_group"])]
+            finds = re.findall(self.regex, question.lower())
+            finds = finds[0] if not isinstance(finds[0], (str, unicode)) else finds
+            return finds[int(self.given_object["regex_group"])]
         else:
             coarse = self.given_object["coarse"]
             fine = self.given_object["fine"]
@@ -85,21 +87,26 @@ class CalculatedValueModel(QuestionModel):
             A string, the requested value of the question.
         """
 
-        coarse = self.requested_value["coarse"]
-        fine = self.requested_value["fine"]
-        ccoarse = None
+        if "regex_group" in self.requested_value:
+            finds = re.findall(self.regex, question.lower())
+            finds = finds[0] if not isinstance(finds[0], (str, unicode)) else finds
+            return finds[int(self.requested_value["regex_group"])]
+        else:
+            coarse = self.requested_value["coarse"]
+            fine = self.requested_value["fine"]
+            ccoarse = None
 
-        if "ccoarse" in self.requested_value:
-            ccoarse = self.requested_value["ccoarse"]
+            if "ccoarse" in self.requested_value:
+                ccoarse = self.requested_value["ccoarse"]
 
-        requested_values = element.find_elements(coarse=coarse, fine=fine, ccoarse=ccoarse)
+            requested_values = element.find_elements(coarse=coarse, fine=fine, ccoarse=ccoarse)
 
-        if len(requested_values) > 0:
-            word = requested_values[0].word
-            if word == "magnitude":
-                return self.check_magnitude_properties(question)
-            else:
-                return word
+            if len(requested_values) > 0:
+                word = requested_values[0].word
+                if word == "magnitude":
+                    return self.check_magnitude_properties(question)
+                else:
+                    return word
 
     def find_given_values(self, question):
         vectors = {}

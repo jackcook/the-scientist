@@ -1,0 +1,11 @@
+{
+  "regexes": [
+    "a ([\\w]+) has .+ what is the ([\\w]+) .+"
+  ],
+  "given_object": {
+    "regex_group": 0
+  },
+  "requested_value": {
+    "regex_group": 1
+  }
+}
