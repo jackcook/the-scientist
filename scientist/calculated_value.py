@@ -109,19 +109,19 @@ class CalculatedValueModel(QuestionModel):
                     return word
 
     def find_given_values(self, question):
-        vectors = {}
+        objects = {}
 
         d1 = self.find_equal_sign_values(question)
         d2 = self.find_worded_values(question)
 
         for d in (d1, d2):
             for key, value in d.iteritems():
-                if key not in vectors:
-                    vectors[key] = {}
+                if key not in objects:
+                    objects[key] = {}
 
-                vectors[key].update(value)
+                objects[key].update(value)
 
-        return vectors
+        return objects
 
     def find_equal_sign_values(self, question):
         """Looks for given values that are shown with equal signs. An example
@@ -136,7 +136,7 @@ class CalculatedValueModel(QuestionModel):
             and the values are those attributes' values.
         """
 
-        vectors = {}
+        objects = {}
 
         data = re.findall(r"([A-z0-9()]+ = [0-9].?[0-9]?)", question)
         values = {}
@@ -146,15 +146,15 @@ class CalculatedValueModel(QuestionModel):
 
         for key, val in values.iteritems():
             key_data = re.findall(r"([A-z])\(([A-z])\)", key)
-            vector_id = key_data[0][0]
+            object_id = key_data[0][0]
             variable = key_data[0][1]
 
-            if vector_id not in vectors.keys():
-                vectors[vector_id] = {}
+            if object_id not in objects.keys():
+                objects[object_id] = {}
 
-            vectors[vector_id][variable] = val
+            objects[object_id][variable] = val
 
-        return vectors
+        return objects
 
     def find_worded_values(self, question):
         """Looks for given values that are worded into the question. An example
@@ -169,7 +169,7 @@ class CalculatedValueModel(QuestionModel):
             and the values are those attributes' values.
         """
 
-        vectors = {}
+        objects = {}
 
         regexes = [
             ("r", "a magnitude of ([\d]+)"),
@@ -182,17 +182,17 @@ class CalculatedValueModel(QuestionModel):
 
             if len(data) == 0: continue
 
-            vector_id = "A"
+            object_id = "A"
 
-            if vector_id not in vectors.keys():
-                vectors[vector_id] = {}
+            if object_id not in objects.keys():
+                objects[object_id] = {}
 
             if variable == "theta":
-                vectors[vector_id][variable] = math.radians(float(data[0]))
+                objects[object_id][variable] = math.radians(float(data[0]))
             else:
-                vectors[vector_id][variable] = data[0]
+                objects[object_id][variable] = data[0]
 
-        return vectors
+        return objects
 
     def check_magnitude_properties(self, question):
         if "horizontal component" in question.split("magnitude")[-1]: return "x"
