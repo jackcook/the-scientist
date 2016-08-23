@@ -44,3 +44,8 @@ def test_question_4b():
     question = "As the angle between a given vector and the horizontal axis decreases from 90 degrees to 0 degrees, the magnitude of the vertical component of this vector"
     answer = answer_question(question)
     assert answer == "decreases"
+
+def test_question_4c():
+    question = "As the angle between a given vector and the positive x-axis increases from 0 degrees to 90 degrees, the magnitude of the vertical component of this vector"
+    answer = answer_question(question)
+    assert answer == "increases"
