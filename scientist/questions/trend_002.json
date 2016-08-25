@@ -1,12 +1,12 @@
 {
   "regexes": [
-    "as the (\\w+) .+ increases .+"
+    "as the (\\w+) .+ decreases .+"
   ],
   "given_object": {
     "regex_group": 0
   },
   "requested_value": {
     "coarse": "noun",
-    "fine": "appositional_modifier"
+    "fine": "nominal_subject"
   }
 }
