@@ -59,3 +59,8 @@ def test_question_4e():
     question = "As the angle between a given vector and the positive x-axis is increasing from 0 degrees to 90 degrees, the magnitude of the vertical component of this vector"
     answer = answer_question(question)
     assert answer == "increases"
+
+def test_question_4e():
+    question = "While the angle between a given vector and the positive x-axis is decreasing from 90 degrees to 0 degrees, the magnitude of the vertical component of this vector"
+    answer = answer_question(question)
+    assert answer == "increases"
