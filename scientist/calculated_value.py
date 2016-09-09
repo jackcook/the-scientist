@@ -55,9 +55,10 @@ class CalculatedValueModel(QuestionModel):
                 return "%d units" % int(round(vectors[0].y))
 
     def find_given_object(self, question, element):
-        """Finds the given object could be found in the question.
+        """Finds the given object that could be found in the question.
 
         Args:
+            question: The question being asked, as a string.
             element: The root word object of the question.
 
         Returns:
