@@ -4,6 +4,7 @@ from physics import Vector
 from question_model import QuestionModel
 
 from calculated_value import CalculatedValueModel
+from dimensional_analysis import DimensionalAnalysisModel
 from informational import InformationalModel
 from trend import TrendModel
 
@@ -40,6 +41,8 @@ class Response:
         for filename in files:
             if filename.startswith("calculated_value"):
                 models.append(CalculatedValueModel(filename))
+            elif filename.startswith("dimensional_analysis"):
+                models.append(DimensionalAnalysisModel(filename))
             elif filename.startswith("informational"):
                 models.append(InformationalModel(filename))
             elif filename.startswith("trend"):

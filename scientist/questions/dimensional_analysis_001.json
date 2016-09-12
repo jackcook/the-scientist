@@ -1,0 +1,15 @@
+{
+  "regexes": [
+    "there are ([\\d]+) ([\\w]+) in ([\\d]+) ([\\w]+). how many ([\\w]+) are there in ([\\d]+) ([\\w]+)\\?"
+  ],
+  "given_object": {
+    "regex_group": 0
+  },
+  "requested_value": {
+    "coarse": "noun",
+    "fine": "nominal_subject",
+    "ccoarse": [
+      "wh_determiner"
+    ]
+  }
+}
