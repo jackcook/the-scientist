@@ -6,4 +6,4 @@ install:
   - pip install aenum pytest stemming
   - pip install -e .
 script:
-  - py.test --ignore=tests/test_vectors.py
+  - py.test --ignore=tests/homework --ignore=tests/textbook
