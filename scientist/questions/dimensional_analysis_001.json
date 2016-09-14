@@ -1,8 +1,8 @@
 {
   "regexes": [
-    "there are ([\\d]+) ([\\w]+) in ([\\d]+) ([\\w]+). how many ([\\w]+) are there in ([\\d]+) ([\\w]+)\\?"
+    ".* how many ([\\w]+) .* in \\d+(\\.\\d+)? [\\w]+?"
   ],
-  "given_object": {
+  "given_values": {
     "regex_group": 0
   },
   "requested_value": {

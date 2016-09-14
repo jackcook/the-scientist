@@ -1,4 +1,7 @@
+import json, re
+
 from question_model import QuestionModel
+from physics import Distance, DistanceUnit
 
 class DimensionalAnalysisModel(QuestionModel):
     """A model matching questions that make use of dimensional analysis.
@@ -28,11 +31,12 @@ class DimensionalAnalysisModel(QuestionModel):
         self.given_values = self.find_given_values(question, element)
         self.requested_value = self.find_requested_value(question, element)
 
-        if self.given_objects and self.requested_value:
+        if self.given_values and self.requested_value:
             return True
 
     def solve(self, question, element):
-        return "10"
+        answer = getattr(self.requested_value[1], self.requested_value[0])
+        return "%.4f %s" % (answer, self.requested_value[0])
 
     def find_given_values(self, question, element):
         """Finds the given values that could be found in the question.
@@ -45,18 +49,17 @@ class DimensionalAnalysisModel(QuestionModel):
             An array of value objects.
         """
 
-        if "regex_groups" in self.given_values:
-            finds = re.findall(self.regex, question.lower())
-            finds = finds[0] if not isinstance(finds[0], (str, unicode)) else finds
-            return finds[int(self.given_values["regex_group"])]
-        else:
-            coarse = self.given_values["coarse"]
-            fine = self.given_values["fine"]
+        values = []
 
-            given_values = element.find_elements(coarse=coarse, fine=fine)
+        for unit in list(DistanceUnit):
+            regex = "(\d+(\.\d+)?) (%s|%s)" % (unit.name, unit.value[1])
+            finds = re.findall(regex, question.lower())
 
-            if len(given_values) > 0:
-                return given_values
+            for finding in finds:
+                distance = Distance(finding[0], unit)
+                values.append(distance)
+
+        return values
 
     def find_requested_value(self, question, element):
         """Finds the value being requested in the question.
@@ -69,4 +72,11 @@ class DimensionalAnalysisModel(QuestionModel):
             The type of value being requested.
         """
 
-        return "mile"
+        for unit in list(DistanceUnit):
+            regex = "how many ([\w]+) .* in (\d+(\.\d+)?) (%s|%s)" % (unit.name,
+                unit.value[1])
+
+            finds = re.findall(regex, question.lower())
+
+            for finding in finds:
+                return (finding[0], Distance(finding[1], unit))
